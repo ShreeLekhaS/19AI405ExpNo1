@@ -43,65 +43,46 @@
 
 # PROGRAM:
 ```
-class VacuumCleanerAgent:
-    def __init__(self):
-        # Initialize the agent's state (location and dirt status)
-        self.location = "A"  # Initial location (can be "A" or "B")
-        self.dirt_status = {"A": False, "B": False}  # Initial dirt status (False means no dirt)
+import random
 
-    def move_left(self):
-        # Move the agent to the left if possible
-        if self.location == "B":
-            self.location = "A"
+rooms = {
+    "Room1": 98,
+    "Room2": 102,
+    "Room3": 97,
+    "Room4": 101,
+    "Room5": 99
+}
 
-    def move_right(self):
-        # Move the agent to the right if possible
-        if self.location == "A":
-            self.location = "B"
+performance = 0
 
-    def suck_dirt(self):
-        # Suck dirt in the current location if there is dirt
-        if self.dirt_status[self.location]:
-            self.dirt_status[self.location] = False
-            print(f"Sucked dirt in location {self.location}")
+def sensor(room):
+    return rooms[room]
 
-    def do_nothing(self):
-        # Do nothing
-        pass
+def actuator(room):
+    global performance
+    print(f"Treating patient in {room} with temperature {rooms[room]}°F: Prescribed medicine 💊")
+    performance += 1
 
-    def perform_action(self, action):
-        # Perform the specified action
-        if action == "left":
-            self.move_left()
-        elif action == "right":
-            self.move_right()
-        elif action == "suck":
-            self.suck_dirt()
-        elif action == "nothing":
-            self.do_nothing()
-        else:
-            print("Invalid action")
+room_list = list(rooms.keys())
+random.shuffle(room_list)
 
-    def print_status(self):
-        # Print the current status of the agent
-        print(f"Location: {self.location}, Dirt Status: {self.dirt_status}")
+print("🏥 AI Agent starts visiting rooms...\n")
 
-# Example usage:
-agent = VacuumCleanerAgent()
+for room in room_list:
+    performance -= 1
+    temp = sensor(room)
+    if temp > 100:
+        actuator(room)
+    else:
+        print(f"{room} - No fever ({temp}°F). No treatment needed.")
 
-# Move the agent, suck dirt, and do nothing
-
-agent.perform_action("left")
-agent.print_status()
-agent.perform_action("suck")
-agent.print_status()
-agent.perform_action("nothing")
-agent.print_status()
+print("\n✅ Total Performance Score:", performance)
 
 ```
 # Output:
 
-![image](https://github.com/user-attachments/assets/64053399-ac80-45c1-891e-37913bf0a650)
+![image](https://github.com/user-attachments/assets/e7ca6b82-ed0b-46d8-9de7-fde3754bf359)
+
 
 # RESULT:
 The PEAS description for the given AI problem has been succesfully developed using an AI agent
